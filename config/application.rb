@@ -58,6 +58,8 @@ module SocialInnovation
 
     config.middleware.use 'Rack::OpenID'
 
+    config.allow_point_allocation = true
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     config.filter_parameters = [:password, :password_confirmation]

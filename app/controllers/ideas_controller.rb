@@ -19,6 +19,38 @@ class IdeasController < ApplicationController
 
   layout :get_layout
 
+  def allocate_points
+    params.each do |param, value|
+      if param.include?("slider_values")
+        next if value.empty?
+        idea_id = (param.match /slider_values_(\d+)/)[1]
+        point_count = value.to_i
+        retry_count = 3
+        begin
+          ActiveRecord::Base.transaction do
+            AllocatedUserPoint.destroy_all("user_id = #{current_user.id} AND idea_id = #{idea_id}")
+            if current_user.allocated_points_left>=point_count
+              a = AllocatedUserPoint.new
+              a.user_id = current_user.id
+              a.idea_id = idea_id
+              a.allocated_points = point_count
+              a.save
+            end
+            idea = Idea.find(idea_id, :lock=>true)
+            idea.update_allocated_points_cache!
+          end
+        rescue # Deadlock rescue 3 tries
+          if retry_count > 0
+            retry_count-=1
+            retry
+          end
+        end
+
+      end
+    end
+    redirect_to :action=>"show", :id=>params[:id]
+  end
+
   # GET /ideas
   def index
     if params[:term] and request.xhr?

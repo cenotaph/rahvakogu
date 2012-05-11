@@ -102,6 +102,8 @@ class User < ActiveRecord::Base
   has_many :following_discussions, :dependent => :destroy
   has_many :following_discussion_activities, :through => :following_discussions, :source => :activity
 
+  has_many :allocated_user_points
+
   validates_presence_of     :login, :message => tr("Please specify a name to be identified as on the site.", "model/user")
   validates_length_of       :login, :within => 3..60
   validates_presence_of     :first_name, :message => tr("Please specify your first name.", "model/user")
@@ -203,6 +205,23 @@ class User < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  def total_allocated_points
+    AllocatedUserPoint.sum('allocated_points', :conditions=>["user_id = ?",self.id])
+  end
+
+  def allocated_points_left
+    [100-total_allocated_points,100].min
+  end
+
+  def get_points_allocated_for_this(idea_id)
+    allocated = AllocatedUserPoint.find(:first, :conditions=>["user_id = ? AND idea_id = ?",self.id, idea_id])
+    if allocated
+      allocated.allocated_points
+    else
+      0
+    end
   end
   
   def new_user_signedup

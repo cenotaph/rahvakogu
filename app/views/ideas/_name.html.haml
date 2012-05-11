@@ -4,5 +4,6 @@
 - else
   #hp_intro.ideas
     = link_to_unless_current tg(idea.name), idea
+    %span.box.smallbox= "#{idea.cached_allocated_points_counter} #{tr('Points', 'views/ideas/_name')}"
     = render :partial=>"ideas/report_content", :locals=>{:idea=>idea}
 = render :partial=>"ideas/flagged", :locals=>{:idea=>idea}

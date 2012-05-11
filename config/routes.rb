@@ -90,6 +90,7 @@ SocialInnovation::Application.routes.draw do
       put :successful
       put :failed
       put :intheworks
+      get :allocate_points
       post :endorse
       get :endorsed
       get :opposed

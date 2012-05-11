@@ -8,6 +8,7 @@
       .col-full
         .col-content
           = render :partial => "ideas/idea_status_changelogs"
+          = render :partial=>"ideas/allocated_points" if action_name=="show" && Rails.application.config.allow_point_allocation
       .col-half
         .col-content{:style=>"background-color: #fff;"}
           %div

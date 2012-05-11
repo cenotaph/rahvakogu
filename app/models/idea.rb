@@ -29,6 +29,8 @@ class Idea < ActiveRecord::Base
   scope :falling, :conditions => "ideas.trending_score < 0", :order => "ideas.trending_score asc"
   scope :controversial, :conditions => "ideas.is_controversial = true", :order => "ideas.controversial_score desc"
 
+  scope :by_allocated_points, :order=>"cached_allocated_points_counter DESC"
+
   scope :rising_7days, :conditions => "ideas.position_7days_delta > 0"
   scope :flat_7days, :conditions => "ideas.position_7days_delta = 0"
   scope :falling_7days, :conditions => "ideas.position_7days_delta < 0"
@@ -164,6 +166,19 @@ class Idea < ActiveRecord::Base
   
   def content
     self.name
+  end
+
+  def can_allocate_points?(current_user)
+    if self.block_emails_from_voting
+      !self.block_emails_from_voting.include?(current_user.email)
+    else
+      true
+    end
+  end
+
+  def update_allocated_points_cache!
+    self.cached_allocated_points_counter = AllocatedUserPoint.sum('allocated_points', :conditions=>["idea_id = ?",self.id])
+    self.save
   end
   
   def endorse(user,request=nil,sub_instance=nil,referral=nil)

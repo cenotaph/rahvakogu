@@ -1,0 +1,67 @@
+- if current_user
+  #allocated_points_overview.clearfix
+    - curr_points = current_user.get_points_allocated_for_this(@idea.id)
+    - if @idea.can_allocate_points?(current_user)
+      #allocated_points_stats
+        %h3= tr('Allocated points', 'views/ideas/_allocated_points')
+        %p
+          = tr('Total allocated points for ideas:', 'views/ideas/_allocated_points')
+          %b.box= current_user.total_allocated_points
+          %br
+          = tr('Unallocated points:', 'views/ideas/_allocated_points')
+          %b.box= current_user.allocated_points_left
+      #allocated_points
+        = form_tag "/ideas/allocate_points/#{@idea.id}"
+        %b= tr('Point allocation for this idea:', 'views/ideas/_allocated_points')
+        %span.box{:id => "slider_value_#{@idea.id}"}= curr_points
+        .slider{id: "slider_#{@idea.id}"}
+        /.slider{:id => "slider_track_#{@idea.id}", :style => "background-image:url(/images/bg-fader.gif); background-repeat:no-repeat; width:209px; height:28px;"}
+        /  %div{:id => "slider_handle_#{@idea.id}", :style => "background-image:url(/images/thumb-n.gif); background-repeat:no-repeat; width:17px; height:21px; cursor:move;"}
+        %input{:id => "slider_form_value_#{@idea.id}", :name => "slider_values_#{@idea.id}", :type => "hidden"}/
+        = submit_tag tr('Update point allocation', 'view/ideas/_allocated_points')
+    %br
+      #other_point_allocations
+        = form_tag "/ideas/allocate_points/#{@idea.id}"
+        - display_submit = false
+        - current_user.allocated_user_points.each do |allocation|
+          - next if allocation.idea_id == @idea.id
+          - if Idea.find(allocation.idea_id).can_allocate_points?(current_user)
+            - display_submit = true
+            %p
+              = tr('Points for:', 'view/ideas/_allocated_points')
+              %b= "#{allocation.idea.name}: "
+              %span.box{:id => "slider_value_#{allocation.idea_id}"}= current_user.get_points_allocated_for_this(allocation.idea_id)
+            .slider{id: "slider_#{allocation.idea_id}"}
+            /.slider{:id => "slider_track_#{allocation.idea_id}", :style => "background-image:url(/images/bg-fader.gif); background-repeat:no-repeat; width:209px; height:28px;"}
+            /  %div{:id => "slider_handle_#{allocation.idea_id}", :style => "background-image:url(/images/thumb-n.gif); background-repeat:no-repeat; width:17px; height:21px; cursor:move;"}
+            %input{:id => "slider_form_value_#{allocation.idea_id}", :name => "slider_values_#{allocation.idea_id}", :type => "hidden"}/
+        = submit_tag tr("Remove allocated points for other ideas", 'views/ideas/_allocated_points') if display_submit
+    %br
+    - max_points = [80,curr_points+current_user.allocated_points_left].min
+    - if @idea.can_allocate_points?(current_user)
+      :javascript
+        jQuery(document).ready(function() {
+          $('#slider_#{@idea.id}').slider({
+            value: #{curr_points},
+            max: 80,
+            change: function(event, ui) {
+              $('#slider_value_#{@idea.id}').html(ui.value);
+              $('#slider_form_value_#{@idea.id}').val(ui.value);
+            },
+          });
+        });
+    - current_user.allocated_user_points.each do |allocation|
+      - next if allocation.idea_id == @idea.id
+      - if Idea.find(allocation.idea_id).can_allocate_points?(current_user)
+        - curr_points = current_user.get_points_allocated_for_this(allocation.idea_id)
+        :javascript
+          jQuery(document).ready(function() {
+            $('#slider_#{allocation.idea_id}').slider({
+              value: #{curr_points},
+              max: #{curr_points},
+              change: function(event, ui) {
+                $('#slider_value_#{allocation.idea_id}').html(ui.value);
+                $('#slider_form_value_#{allocation.idea_id}').val(ui.value);
+              },
+            });
+          });

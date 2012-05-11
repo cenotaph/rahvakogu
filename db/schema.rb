@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120503151518) do
+ActiveRecord::Schema.define(:version => 20120509140614) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -73,6 +73,17 @@ ActiveRecord::Schema.define(:version => 20120503151518) do
   add_index "ads", ["idea_id"], :name => "ads_idea_id_index"
   add_index "ads", ["status"], :name => "ads_status_index"
 
+  create_table "allocated_user_points", :force => true do |t|
+    t.integer  "user_id",          :null => false
+    t.integer  "idea_id",          :null => false
+    t.integer  "allocated_points", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "allocated_user_points", ["idea_id"], :name => "index_allocated_user_points_on_idea_id"
+  add_index "allocated_user_points", ["user_id"], :name => "index_allocated_user_points_on_user_id"
+
   create_table "capitals", :force => true do |t|
     t.integer  "sender_id"
     t.integer  "recipient_id"
@@ -126,8 +137,8 @@ ActiveRecord::Schema.define(:version => 20120503151518) do
     t.boolean  "is_flip",               :default => false
   end
 
-  add_index "changes", ["new_idea_id"], :name => "changes_new_idea_id_index"
   add_index "changes", ["idea_id"], :name => "changes_idea_id_index"
+  add_index "changes", ["new_idea_id"], :name => "changes_new_idea_id_index"
   add_index "changes", ["status"], :name => "changes_status_index"
   add_index "changes", ["type"], :name => "changes_type_index"
   add_index "changes", ["user_id"], :name => "changes_user_id_index"
@@ -299,44 +310,44 @@ ActiveRecord::Schema.define(:version => 20120503151518) do
   end
 
   create_table "ideas", :force => true do |t|
-    t.integer  "position",                                :default => 0,     :null => false
+    t.integer  "position",                                       :default => 0,     :null => false
     t.integer  "user_id"
-    t.string   "name",                     :limit => 250
+    t.string   "name",                            :limit => 250
     t.text     "description"
-    t.integer  "endorsements_count",                      :default => 0,     :null => false
-    t.string   "status",                   :limit => 50
-    t.string   "ip_address",               :limit => 16
+    t.integer  "endorsements_count",                             :default => 0,     :null => false
+    t.string   "status",                          :limit => 50
+    t.string   "ip_address",                      :limit => 16
     t.datetime "removed_at"
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position_1hr",                            :default => 0,     :null => false
-    t.integer  "position_24hr",                           :default => 0,     :null => false
-    t.integer  "position_7days",                          :default => 0,     :null => false
-    t.integer  "position_30days",                         :default => 0,     :null => false
-    t.integer  "position_1hr_delta",                      :default => 0,     :null => false
-    t.integer  "position_24hr_delta",                     :default => 0,     :null => false
-    t.integer  "position_7days_delta",                    :default => 0,     :null => false
-    t.integer  "position_30days_delta",                   :default => 0,     :null => false
+    t.integer  "position_1hr",                                   :default => 0,     :null => false
+    t.integer  "position_24hr",                                  :default => 0,     :null => false
+    t.integer  "position_7days",                                 :default => 0,     :null => false
+    t.integer  "position_30days",                                :default => 0,     :null => false
+    t.integer  "position_1hr_delta",                             :default => 0,     :null => false
+    t.integer  "position_24hr_delta",                            :default => 0,     :null => false
+    t.integer  "position_7days_delta",                           :default => 0,     :null => false
+    t.integer  "position_30days_delta",                          :default => 0,     :null => false
     t.integer  "change_id"
     t.string   "cached_issue_list"
-    t.integer  "up_endorsements_count",                   :default => 0
-    t.integer  "down_endorsements_count",                 :default => 0
-    t.integer  "points_count",                            :default => 0
-    t.integer  "up_points_count",                         :default => 0
-    t.integer  "down_points_count",                       :default => 0
-    t.integer  "neutral_points_count",                    :default => 0
-    t.integer  "discussions_count",                       :default => 0
-    t.integer  "relationships_count",                     :default => 0
-    t.integer  "changes_count",                           :default => 0
-    t.integer  "official_status",                         :default => 0
-    t.integer  "official_value",                          :default => 0
+    t.integer  "up_endorsements_count",                          :default => 0
+    t.integer  "down_endorsements_count",                        :default => 0
+    t.integer  "points_count",                                   :default => 0
+    t.integer  "up_points_count",                                :default => 0
+    t.integer  "down_points_count",                              :default => 0
+    t.integer  "neutral_points_count",                           :default => 0
+    t.integer  "discussions_count",                              :default => 0
+    t.integer  "relationships_count",                            :default => 0
+    t.integer  "changes_count",                                  :default => 0
+    t.integer  "official_status",                                :default => 0
+    t.integer  "official_value",                                 :default => 0
     t.datetime "status_changed_at"
-    t.integer  "score",                                   :default => 0
-    t.string   "short_url",                :limit => 20
-    t.boolean  "is_controversial",                        :default => false
-    t.integer  "trending_score",                          :default => 0
-    t.integer  "controversial_score",                     :default => 0
+    t.integer  "score",                                          :default => 0
+    t.string   "short_url",                       :limit => 20
+    t.boolean  "is_controversial",                               :default => false
+    t.integer  "trending_score",                                 :default => 0
+    t.integer  "controversial_score",                            :default => 0
     t.string   "external_info_1"
     t.string   "external_info_2"
     t.string   "external_info_3"
@@ -345,9 +356,9 @@ ActiveRecord::Schema.define(:version => 20120503151518) do
     t.string   "external_id"
     t.string   "external_name"
     t.integer  "sub_instance_id"
-    t.integer  "flags_count",                             :default => 0
+    t.integer  "flags_count",                                    :default => 0
     t.integer  "category_id"
-    t.string   "user_agent",               :limit => 200
+    t.string   "user_agent",                      :limit => 200
     t.integer  "position_endorsed_24hr"
     t.integer  "position_endorsed_7days"
     t.integer  "position_endorsed_30days"
@@ -355,6 +366,8 @@ ActiveRecord::Schema.define(:version => 20120503151518) do
     t.integer  "external_session_id"
     t.string   "finished_status_subject"
     t.date     "finished_status_date"
+    t.integer  "cached_allocated_points_counter",                :default => 0
+    t.string   "block_emails_from_voting"
   end
 
   add_index "ideas", ["category_id"], :name => "index_ideas_on_category_id"
