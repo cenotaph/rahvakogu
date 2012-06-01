@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120509140614) do
+ActiveRecord::Schema.define(:version => 20120601100723) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -973,6 +973,8 @@ ActiveRecord::Schema.define(:version => 20120509140614) do
     t.boolean  "admin"
     t.string   "locale"
     t.integer  "level",             :default => 0
+    t.string   "type"
+    t.datetime "synced_at"
   end
 
   add_index "tr8n_translation_keys", ["key"], :name => "index_tr8n_translation_keys_on_key", :unique => true
@@ -1016,6 +1018,7 @@ ActiveRecord::Schema.define(:version => 20120509140614) do
     t.text     "rules"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "synced_at"
   end
 
   add_index "tr8n_translations", ["created_at"], :name => "tr8n_trans_created_at"
@@ -1097,6 +1100,7 @@ ActiveRecord::Schema.define(:version => 20120509140614) do
     t.boolean  "manager"
     t.string   "last_ip"
     t.string   "country_code"
+    t.integer  "remote_id"
   end
 
   add_index "tr8n_translators", ["created_at"], :name => "index_tr8n_translators_on_created_at"
