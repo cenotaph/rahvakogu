@@ -109,11 +109,12 @@ class User < ActiveRecord::Base
   validates_presence_of     :first_name, :message => tr("Please specify your first name.", "model/user")
   validates_presence_of     :last_name, :message => tr("Please specify your first name.", "model/user")
   
-  validates_presence_of     :email, :unless => [:has_facebook?, :has_twitter?]
-  validates_length_of       :email, :within => 3..100, :allow_nil => true, :allow_blank => true
-  validates_uniqueness_of   :email, :case_sensitive => false, :allow_nil => true, :allow_blank => true
+  validates_presence_of     :email
+  validates_length_of       :email, :within => 3..100
+  validates_uniqueness_of   :email, :case_sensitive => false
   validates_uniqueness_of   :facebook_uid, :allow_nil => true, :allow_blank => true
-  validates_format_of       :email, :with => /^[-^!$#%&'*+\/=3D?`{|}~.\w]+@[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])*(\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])*)+$/x, :allow_nil => true, :allow_blank => true
+  validates_format_of       :email, :with => /^[-^!$#%&'*+\/=3D?`{|}~.\w]+@[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])*(\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])*)+$/x
+  validates_format_of       :email, :with => /@(fro\.is|hgdalvik\.is|husafridun\.is|skulptur\.is|misa\.is|fsh\.is|hve\.is|iceida\.is|rnf\.is|hsb\.is|nmi\.is|hsu\.is|kvenno\.is|hag\.is|heilsugaeslan\.is|fas\.is|sra\.is|lhg\.is|fsn\.is|fornleifavernd\.is|landlaeknir\.is|rikissattasemjari\.is|talsmadur\.is|fsu\.is|bankasysla\.is|hss\.is|mtr\.is|lrh\.is|byggdastofnun\.is|va\.is|shh\.is|tmd\.is|mrn\.is|us\.is|mh\.is|land\.is|evr\.is|lin\.is|unak\.is|greining\.is|idnskolinn\.is|midstod\.is|laugar\.is|ust\.is|slr\.stjr\.is|umhverfisraduneyti\.is|rsk\.is|mr\.is|hsa\.is|nsa\.is|mk\.is|skattur\.is|fnv\.is|fb\.is|eyjar\.is|thjodminjasafn\.is|skogur\.is|syslumenn\.is|skjalasafn\.is|os\.is|hti\.is|rlm\.stjr\.is|haestirettur\.is|ums\.is|thjodmenning\.is|hi\.is|ils\.is|dc\.is|ver\.is|urvinnslusjodur\.is|lyfjastofnun\.is|sjukra\.is|natturuminjasafn\.is|veidimal\.is|rls\.is|lbhi\.is|vjp\.is|irr\.is|cb\.is|fg\.is|fva\.is|fme\.is|vel\.is|fiskistofa\.is|rannis\.is|leikhusid\.is|sigling\.is|usb\.is|jafnretti\.is|fastrik\.is|idn\.stjr\.is|mvs\.is|ma\.is|kvikmyndamidstod\.is|caa\.is|fss\.is|hsp\.is|holar\.is|fjr\.stjr\.is|vedur\.is|lmi\.is|vegagerdin\.is|ml\.is|neytendastofa\.is|bhs\.is|vma\.is|fjs\.is|kvikmyndasafn\.is|rikiskaup\.is|rnu\.is|vmst\.is|for\.stjr\.is|umb\.althingi\.is|serstakursaksoknari\.is|gr\.is|ni\.is|isor\.is|fmos\.is|barn\.is|ferdamalastofa\.is|utl\.is|flensborg\.is|hskrokur\.is|nams\.is|id\.is|me\.is|fa\.is|namsmat\.is|heilthing\.is|listasafn\.is|domstolar\.is|rikisend\.is|utn\.stjr\.is|msund\.is|rns\.is|bbi\.is|svs\.is|pfs\.is|mast\.is|atvr\.is|els\.is|fiv\.is|personuvernd\.is|tollur\.is|kirkjan\.is|bvs\.is|samkeppni\.is|landsbokasafn\.is|hagstofa\.is|fsa\.is|landspitali\.is|skra\.is|fsr\.is|skipulag\.is|tr\.is|fsi\.is|hsf\.is|gljufrasteinn\.is)$/
     
   validates_presence_of     :password, :if => [:should_validate_password?]
   validates_presence_of     :password_confirmation, :if => [:should_validate_password?]
