@@ -85,7 +85,7 @@ Then create and seed the database
 bundle exec rake db:drop db:create db:schema:load tr8n:import_db db:seed --trace
 ````
 
-Recreate tr8n from scratch
+Alternatively, recreate tr8n from scratch
 
 ````bash
 
