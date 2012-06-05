@@ -50,10 +50,6 @@ group :development do
   gem 'rails_view_annotator', :git => "git://github.com/duncanbeevers/rails_view_annotator.git"
 end
 
-group :production do
-  gem "newrelic_rpm"
-end
-
 group :test do
   gem 'watir-webdriver'
   gem 'ruby-prof'
