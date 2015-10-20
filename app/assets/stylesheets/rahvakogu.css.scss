@@ -23,6 +23,26 @@
 		font-size: 11px;
 	}
 }
+#redBanner {
+  background-color: #9e0027;
+  font-size: 22px;
+  color: white;
+  padding: 10px 0px 8px 0px;
+  font-family: 'OpenSansLight', sans-serif;
+  font-weight: 300;
+  margin-bottom: 1px;
+  text-align: center;
+  border-bottom: 2px solid white;
+
+  width: 100%;
+  a {
+    color: #c8c8c8;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
 #search_results {
 	.profile_picture96 {
 		float: left;

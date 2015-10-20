@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.22'
 gem 'rails-i18n'
-gem 'mysql2'
+gem 'mysql2', '0.3.14'
 
 #gem "twitter-auth", :git => "git://github.com/benders/twitter-auth.git", :branch => "rails_3", :require => "twitter_auth/engine"
 #gem 'facebooker2'
@@ -22,6 +22,7 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'devise', '2.1.2'
 gem 'exceptional'
+gem 'eventmachine', '1.0.4'
 gem 'friendly_id', '4.0.9'
 gem 'geoip'
 gem 'googlecharts'
@@ -33,8 +34,9 @@ gem 'htmldiff'
 gem 'htmlentities'
 gem 'jquery-rails'
 gem 'jquery-rjs', github: "bikeexchange/jquery-rjs"
+gem 'json', '1.8.2'
 gem 'kaminari'
-gem 'kgio'
+# gem 'kgio'
 gem 'nested_form', :git => 'git://github.com/ryanb/nested_form.git'
 gem "nokogiri"
 gem 'oauth'
@@ -49,7 +51,7 @@ gem 'savon', '1.2.0'
 gem 'sass'
 gem 'sunlight'
 gem 'sys-filesystem'
-gem 'thinking-sphinx', '2.0.13'
+gem 'thinking-sphinx' , '2.1.0'
 gem 'tr8n', github: "hinrik/tr8n", :branch => "social_innovation"
 gem 'truncate_html'
 gem 'whenever', :require => false
@@ -61,7 +63,7 @@ gem 'workflow'
 group :development do
   gem 'thin'
   gem 'rails-dev-boost'
-  gem 'rails_view_annotator', github: "hinrik/rails_view_annotator"
+  # gem 'rails_view_annotator', github: "hinrik/rails_view_annotator"
   gem 'binding_of_caller'
   gem 'better_errors'
 end
@@ -83,6 +85,7 @@ group :test do
   gem 'spork', "0.9.2"
   gem 'guard-spork', '1.3.0'
   gem 'growl'  
+  gem 'test-unit'
   gem 'rb-fsevent', '~> 0.9.1'  
 end
 
@@ -91,6 +94,6 @@ group :assets do
   gem 'uglifier'
   gem 'jquery-ui-rails'
   gem 'execjs'
-  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  gem 'therubyracer' #, '~> 0.10.2', :platforms => :ruby
   # gem 'turbo-sprockets-rails3'
 end
