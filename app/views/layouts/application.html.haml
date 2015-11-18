@@ -32,9 +32,19 @@
     = csrf_meta_tag
 
   %body{:class => (controller.controller_name == 'home' && controller.action_name == 'index') ? :frontpage : false}
+    
     %section#redBanner
-      Rahvakogu veeb on arhiveeritud 30.05.2013 seisuga. Uudiseid saab lugeda
-      = link_to 'blogist >>', 'http://rahvakogu.tumblr.com/'
+      - if controller.controller_name == 'pages'
+        - if !@page.nil?
+          - if @page.slug == 'what-is-rahvakogu'
+            Rahvakogu is archived since 30.05.2013. Read recent news on the 
+            = link_to 'blog >>', 'http://rahvakogu.tumblr.com/'
+          - else
+            Rahvakogu veeb on arhiveeritud 30.05.2013 seisuga. Uudiseid saab lugeda
+            = link_to 'blogist >>', 'http://rahvakogu.tumblr.com/'
+      - else
+        Rahvakogu veeb on arhiveeritud 30.05.2013 seisuga. Uudiseid saab lugeda
+        = link_to 'blogist >>', 'http://rahvakogu.tumblr.com/'
     #fb-root
     - if controller.controller_name == 'ideas' && controller.action_name == 'show'
       :javascript  
